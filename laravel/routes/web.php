@@ -1,6 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Admin\IndexController;
+use App\Http\Controllers\NewsController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,13 +16,13 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-$text = "Hello";
-$title = "first page";
-Route::get('/', function () use ($text, $title) {
-    return view('welcome');
+Route::group(['prefix' =>'admin', 'as'=>'admin.'], function () {
+    Route::resource('index', IndexController::class);
+    Route::resource('categories', AdminCategoryController::class);
+    Route::resource('news', AdminNewsController::class);
 });
 
-Route::get('/welcome', function(){
+Route::get('/', function(){
     return view('usersWelcome');
 });
 
@@ -26,6 +30,9 @@ Route::get('/info', function(){
     return view('infoProject');
 });
 
-Route::get('/news', function(){
-    return view('news');
-});
+Route::get('/news', [NewsController::class, 'index'])
+    ->name('news,index');
+
+Route::get('/news/{id}', [NewsController::class, 'show'])
+    ->name('news.show')
+    ->where('id', '\d+');
