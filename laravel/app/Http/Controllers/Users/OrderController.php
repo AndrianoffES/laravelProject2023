@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
+use App\Models\UserFeedback;
+use App\Models\UserOrder;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -28,12 +30,9 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->except('_token');
-        $data= json_encode($data, JSON_PRETTY_PRINT);
-        $file = '/home/vagrant/code/laravel/Files/usersOrders.json';
-        //dd($data);
-        file_put_contents($file, $data);
-        return redirect('/');
+       $order = new UserOrder();
+       $order->fill($request->all())->save();
+        return redirect('/home');
     }
 
     /**

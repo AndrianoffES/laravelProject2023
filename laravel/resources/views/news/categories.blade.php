@@ -8,7 +8,7 @@
 
  @forelse($categories as $item)
     <div>
-        <h1><a href="<?=route('news.categoryId', [$item->id])?>"><?=$item->title?></a></h1>
+        <h1><a href="<?=route('newsByCategory', $item->id)?>"><?=$item->title?></a></h1>
         <hr>
     </div>
  @empty

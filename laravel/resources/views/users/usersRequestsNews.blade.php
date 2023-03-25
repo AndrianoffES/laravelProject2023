@@ -4,20 +4,20 @@
         <form method="post" action="{{route('order.store')}}">
             @csrf
             <div class="mb-3">
-                <label for="inputName" class="form-label">Name</label>
-                <input type="text" class="form-control" id="inputName" name="inputName" placeholder="Alexandr Voronov" value="{{old('inputName')}}">
+                <label for="user_name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="user_name" name="user_name" placeholder="Alexandr Voronov" value="{{old('user_name')}}">
             </div>
             <div class="mb-3">
-                <label for="inputPhone" class="form-label">Phone number</label>
-                <input type="tel" class="form-control" id="inputPhone" name="inputPhone" placeholder="+999999999999" value="{{old('inputPhone')}}">
+                <label for="phone_number" class="form-label">Phone number</label>
+                <input type="tel" class="form-control" id="phone_number" name="phone_number" placeholder="+999999999999" value="{{old('phone_number')}}">
             </div>
             <div class="mb-3">
-                <label for="inputEmail" class="form-label">Email address</label>
-                <input type="email" class="form-control" id="inputEmail" name="inputEmail" placeholder="name@example.com" value="{{old('inputEmail')}}">
+                <label for="email" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com" value="{{old('email')}}">
             </div>
             <div class="mb-3">
-                <label for="inputDescription" class="form-label">Describe you order</label>
-                <textarea class="form-control" name="inputDescription" id="inputDescription" rows="3">{!! old('inputDescription') !!}</textarea>
+                <label for="description" class="form-label">Describe you order</label>
+                <textarea class="form-control" name="description" id="description" rows="3">{!! old('description') !!}</textarea>
             </div>
             <button class="btn btn-success" type="submit">Send</button>
         </form>

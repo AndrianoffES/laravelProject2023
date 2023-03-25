@@ -18,8 +18,8 @@
         <form method="post" action="{{route('feedback.store')}}">
             @csrf
             <div class="form-group">
-                <label for="name">Your name</label>
-                <input type="text" class="form-control" name="name" id="name">
+                <label for="user_name">Your name</label>
+                <input type="text" class="form-control" name="user_name" id="user_name">
             </div>
             <div class="form-group">
                 <label for="feedback">Your feedback</label>

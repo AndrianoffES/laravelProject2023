@@ -10,23 +10,24 @@ class CategoryController extends Controller
 {
     public function index(){
 
-        $categories = app(Category::class);
+        $categories = Category::all();
 
-       // dump($categories->getCategories());
+       //dump($categories);
         return view('news.categories', [
-            'categories' => $categories->getCategories()
+            'categories' => $categories
         ]);
     }
 
-    public function show($id){
-        $currentCategory = app(News::class);
-        //dump($currentCategory);
+    public function show(News $news){
+        $currentCategory =$news;
+
+        dump($currentCategory->category());
         return view('news.newsByCategory',[
-            'categories' => $currentCategory->getNewsByCategory($id)
+            'categories' => $currentCategory->category()
         ]);
     }
 
-    public function showNewsByCategory($id){
+    public function news($id){
         $currentCategory = app(News::class);
 
     }

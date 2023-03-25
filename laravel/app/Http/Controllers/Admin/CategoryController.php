@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -13,7 +14,10 @@ class CategoryController extends Controller
      */
     public function index(): View
     {
-        return view('admin.categories.index');
+        $categories = Category::all();
+        return view('admin.categories.index', [
+            'categories'=>$categories
+        ]);
     }
 
     /**
@@ -29,10 +33,14 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-       $request->validate([
-           'title' => ['required', 'string', 'min:5', 'max:200']
-       ]);
-       return response()->json($request->only(['title','description']));
+//
+       $category = new Category();
+//       $category->title=$request->input('title');
+//       $category->description=$request->input('description');
+        $category->fill($request->all());
+          $category->save();
+
+       return redirect('admin/categories');
     }
 
     /**
@@ -46,24 +54,32 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Category $category)
     {
-        //
+        return \view('admin.categories.edit', [
+            'categories' => $category
+            ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Category $category)
     {
-        //
+        $category->title=$request->input('title');
+        $category->description=$request->input('description');
+        $category->save();
+        return redirect('admin/categories');
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Category $category)
     {
-        //
+
+        $category->delete();
+        return redirect('admin/categories');
     }
 }

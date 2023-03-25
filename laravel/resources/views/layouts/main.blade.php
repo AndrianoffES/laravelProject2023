@@ -77,7 +77,7 @@
                 <strong>NEWS</strong>
             </a>
             <a href="{{route('home')}}" class="btn btn-sm btn-outline-secondary navbar-brand">HOME</a>
-
+            <a href="{{route('admin.index')}}" class="btn btn-sm btn-outline-secondary navbar-brand">ADMIN</a>
         </div>
     </div>
 </header>

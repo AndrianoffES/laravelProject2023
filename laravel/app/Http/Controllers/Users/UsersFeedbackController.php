@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
+use App\Models\UserFeedback;
 use Illuminate\Http\Request;
+use function GuzzleHttp\Promise\all;
 
 class UsersFeedbackController extends Controller
 {
@@ -28,12 +30,11 @@ class UsersFeedbackController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->only(['name', 'feedback']);
-        json_encode($data, JSON_PRETTY_PRINT);
-        $file = '/home/vagrant/code/laravel/Files/usersFeedbacks.json';
-      // dd($data);
-        file_put_contents($file, $data);
-        return redirect('/');
+      //  dd($request->all());
+        $feedback = new UserFeedback();
+        $feedback->fill($request->all())->save();
+
+        return redirect('/home');
 
     }
 

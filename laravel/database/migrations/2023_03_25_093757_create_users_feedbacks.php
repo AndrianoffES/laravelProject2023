@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
-            $table->id('user_id');
-            $table->string('title','60');
-            $table->text('description')->nullable();
+        Schema::create('users_feedbacks', function (Blueprint $table) {
+            $table->id();
+            $table->string('user_name', '50');
+            $table->text('feedback');
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('users_feedbacks');
     }
 };
