@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Categories\Create;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -31,16 +32,15 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Create $request)
     {
 //
-       $category = new Category();
-//       $category->title=$request->input('title');
-//       $category->description=$request->input('description');
-        $category->fill($request->all());
-          $category->save();
+       $category = new Category($request->validated());
+       if ($category->save()){
+           return redirect('admin/categories')->with('success', 'Save was successful');
+       }
+       return back()->with('error', 'Failed to save');
 
-       return redirect('admin/categories');
     }
 
     /**
@@ -79,7 +79,14 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
 
-        $category->delete();
-        return redirect('admin/categories');
+        try{
+            $category->delete();
+
+            return \response()->json('ok');
+        } catch (\Exception $exception) {
+            \Log::error($exception->getMessage(), [$exception]);
+
+            return \response()->json('error', 400);
+        }
     }
 }

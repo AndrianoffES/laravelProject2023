@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\CreateFeedback;
 use App\Models\UserFeedback;
 use Illuminate\Http\Request;
 use function GuzzleHttp\Promise\all;
@@ -28,13 +29,15 @@ class UsersFeedbackController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreateFeedback $request)
     {
       //  dd($request->all());
-        $feedback = new UserFeedback();
-        $feedback->fill($request->all())->save();
+        $feedback = new UserFeedback($request->validated());
+        if($feedback->save()){
+            return redirect('/home')->with('success', 'Thank you! Your feedback was saved');
+        }
 
-        return redirect('/home');
+        return back()->with('error', 'Something went wrong');
 
     }
 

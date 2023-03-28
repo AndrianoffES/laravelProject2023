@@ -1,7 +1,12 @@
 @extends('layouts.admin')
 @section('content')
     <h1 >Categories</h1>
-
+    @if($errors->any())
+        @foreach($errors->all() as $error)
+            <x-alert type="danger" :message="$error" ></x-alert>
+        @endforeach
+    @endif
+    @include('messages')
     <div class="table-responsive">
         <table class="table table-bordered">
             <tr>
@@ -14,12 +19,9 @@
                     <td>{{$item->id}}</td>
                     <td>{{$item->title}}</td>
                     <td>{{$item->description}}</td>
-                    <td><a href="{{ route('admin.categories.edit', ['category' => $item->id]) }}">Edit</a>&nbsp;|&nbsp;
-                        <form action="{{route('admin.categories.destroy', $item)}}" method="POST" style="display: inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" style="color:red; border:none; background:none; padding:0; margin:0; cursor: pointer;">Del</button>
-                        </form>
+                    <td>
+                        <a href="{{ route('admin.categories.edit', ['category' => $item->id]) }}">Edit</a>&nbsp;|&nbsp;
+                        <a href="javascript:;" class="delete" rel="{{ $item->id }}" style="color: red;">Del.</a>
                     </td>
                 </tr>
         @endforeach
@@ -30,3 +32,32 @@
     </div>
 @endsection
 
+@push('js')
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            let elements = document.querySelectorAll(".delete");
+            elements.forEach(function(e, k) {
+                e.addEventListener("click", function() {
+                    const id = this.getAttribute('rel');
+                    if(confirm(`Are you sure?`)) {
+                        send(`/admin/categories/${id}`).then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        alert("Deleting was canceled");
+                    }
+                });
+            });
+        });
+        async function send(url) {
+            let response = await fetch(url, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            });
+            let result = await response.json();
+            return result.ok;
+        }
+    </script>
+@endpush

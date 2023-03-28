@@ -6,11 +6,11 @@
         <h2>
             Add news
         </h2>
-        {{--        @if($errors->eny())--}}
-        {{--            @foreach($errors->all() as $error)--}}
-        {{--                @include('inc.message', ['message'=>$error])--}}
-        {{--            @endforeach--}}
-        {{--        @endif--}}
+        @if($errors->any())
+            @foreach($errors->all() as $error)
+                <x-alert type="danger" :message="$error" ></x-alert>
+            @endforeach
+        @endif
         <form method="post" action="{{route('admin.news.update', $news)}}">
             @method('put')
             @csrf
@@ -23,12 +23,16 @@
                 <textarea class="form-control" name="body" id="body" >{!! $news->body !!}</textarea>
             </div><br>
             <div class="form-group">
+                <label for="author">Author</label>
+                <input type="text" class="form-control" name="author" id="author" value="{{old('author')}}">
+            </div>
+            <div class="form-group">
                 <label for="category_id">Choose the category</label>
-            <select class="form-select" aria-label="Default select example" name="category_id" id="category_id">
+            <select class="form-select" aria-label="Default select example" name="category[]" id="category" multiple>
                 <option value="0" selected>Choose</option>
 
                 @foreach($categories as $item)
-                    <option value="{{$item->id}}"> @if($news->category_id === $item->id) selected @endif{{$item->title}}</option>
+                    <option @if(in_array($item->id, $news->category->pluck('id')->toArray())) selected @endif value="{{$item->id}}">{{$item->title}}</option>
                 @endforeach
 
             </select>
@@ -36,9 +40,11 @@
             <div class="form-group">
                 <label for="status">Status</label>
                 <select class="form-control" name="status" id="status">
-                    <option @if(old('status') === 'PUBLISHED') selected @endif>PUBLISHED</option>
-                    <option @if(old('status') === 'DRAFT') selected @endif>DRAFT</option>
-                    <option @if(old('status') === 'BLOCKED') selected @endif>BLOCKED</option>
+                    @foreach($statuses as $status)
+                        <option @if($news->status==$status) selected @endif>{{$status}}</option>
+                    @endforeach
+
+
                 </select>
             </div>
             <div class="form-group">

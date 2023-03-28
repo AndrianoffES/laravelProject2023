@@ -5,11 +5,12 @@
         <h2>
             Add category
         </h2>
-{{--        @if($errors->eny())--}}
-{{--            @foreach($errors->all() as $error)--}}
-{{--                @include('inc.message', ['message'=>$error])--}}
-{{--            @endforeach--}}
-{{--        @endif--}}
+        @if($errors->any())
+            @foreach($errors->all() as $error)
+                <x-alert type="danger" :message="$error" ></x-alert>
+            @endforeach
+        @endif
+        @include('messages')
         <form method="post" action="{{route('admin.categories.store')}}">
             @csrf
             <div class="form-group">

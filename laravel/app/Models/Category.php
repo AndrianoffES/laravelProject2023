@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -17,9 +18,9 @@ class Category extends Model
       'description'
     ];
 
-    public function news()
+    public function news(): BelongsToMany
     {
-        return $this->hasMany(News::class);
+        return $this->belongsToMany(News::class, 'categories_has_news', 'category_id', 'news_id');
     }
 
 //    public function getCategories(array $columns=['*']): Collection

@@ -4,6 +4,12 @@
     <div>
         Welcome to news page
     </div>
+    @if($errors->any())
+        @foreach($errors->all() as $error)
+            <x-alert type="danger" :message="$error" ></x-alert>
+        @endforeach
+    @endif
+    @include('messages')
     <div class="btn-group me-2">
         <a href="{{route('order.index')}}" class="btn btn-sm btn-outline-secondary">order unloading news</a>
     </div>

@@ -6,6 +6,12 @@
     <h2>
         Edit category
     </h2>
+    @if($errors->any())
+        @foreach($errors->all() as $error)
+            <x-alert type="danger" :message="$error" ></x-alert>
+        @endforeach
+    @endif
+    @include('messages')
     <form method="post" action="{{route('admin.categories.update', ['category' => $categories])}}">
         @method('put')
         @csrf

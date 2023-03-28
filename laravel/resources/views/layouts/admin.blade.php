@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Dashboard Template · Bootstrap v5.3</title>
     <link href="{{asset('assets/css/bootstrap.min.css')}}" rel="stylesheet" >
 
@@ -89,5 +90,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/feather-icons@4.28.0/dist/feather.min.js"  crossorigin="anonymous"></script>
 <script src="{{asset('assets/js/dashboard.js')}}"></script>
+@stack('js')
 </body>
 </html>

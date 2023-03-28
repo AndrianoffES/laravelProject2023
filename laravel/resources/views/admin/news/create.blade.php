@@ -6,12 +6,12 @@
     <h2>
         Add news
     </h2>
-    {{--        @if($errors->eny())--}}
-    {{--            @foreach($errors->all() as $error)--}}
-    {{--                @include('inc.message', ['message'=>$error])--}}
-    {{--            @endforeach--}}
-    {{--        @endif--}}
-    <form method="post" action="{{route('admin.news.store')}}">
+    @if($errors->any())
+        @foreach($errors->all() as $error)
+            <x-alert type="danger" :message="$error" ></x-alert>
+        @endforeach
+    @endif
+    <form method="post" action="{{route('admin.news.store')}}" enctype="multipart/form-data">
 
         @csrf
         <div class="form-group">
@@ -22,7 +22,11 @@
             <label for="body">Description</label>
             <textarea class="form-control" name="body" id="body" >{!! old('body') !!}</textarea>
         </div><br>
-        <select class="form-select" aria-label="Default select example" name="category_id" id="category_id">
+        <div class="form-group">
+            <label for="author">Author</label>
+            <input type="text" class="form-control" name="author" id="author" value="{{old('author')}}">
+        </div>
+        <select class="form-select" aria-label="Default select example" name="category[]" id="category" multiple>
             <option selected>Choose the category</option>
 
             @foreach($categories as $item)
@@ -33,9 +37,11 @@
         <div class="form-group">
             <label for="status">Status</label>
             <select class="form-control" name="status" id="status">
-                <option @if(old('status') === 'PUBLISHED') selected @endif>PUBLISHED</option>
-                <option @if(old('status') === 'DRAFT') selected @endif>DRAFT</option>
-                <option @if(old('status') === 'BLOCKED') selected @endif>BLOCKED</option>
+                @foreach($statuses as $status)
+                    <option>{{$status}} </option>
+                @endforeach
+
+
             </select>
         </div>
         <div class="form-group">

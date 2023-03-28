@@ -1,5 +1,11 @@
 @extends('layouts.main')
 @section('content')
+    @if($errors->any())
+        @foreach($errors->all() as $error)
+            <x-alert type="danger" :message="$error" ></x-alert>
+        @endforeach
+    @endif
+    @include('messages')
     <div class="form-control-sm">
         <form method="post" action="{{route('order.store')}}">
             @csrf
