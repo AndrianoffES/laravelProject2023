@@ -41,6 +41,10 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'is_admin'=>'bool'
+        'is_admin'=>'bool',
+
+    ];
+    protected array $dates = [
+        'last_login_at'
     ];
 }

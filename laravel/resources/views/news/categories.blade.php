@@ -1,5 +1,5 @@
 
-@extends('layouts.main')
+@extends('layouts.app')
 @section('content')
 
     <div class="btn-group me-2">

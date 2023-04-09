@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\IndexController;
+use App\Http\Controllers\Admin\ParserController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\NewsController;
-use App\Http\Controllers\Users\HomeController;
+use App\Http\Controllers\SocialProvidersController;
+
 use App\Http\Controllers\Users\OrderController;
 use App\Http\Controllers\Users\UsersFeedbackController;
 use Illuminate\Support\Facades\Auth;
@@ -27,6 +29,7 @@ Route::middleware('auth')->group( function () {
     Route::get('/account', AccountController::class)->name('account');
     Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware'=>'is_admin'], static function (): void {
         Route::get('/', IndexController::class)->name('index');
+        Route::get('/parser', ParserController::class)->name('parser');
         Route::resource('/categories', AdminCategoryController::class);
         Route::resource('/news', AdminNewsController::class);
         Route::resource('/users', UserController::class);
@@ -36,7 +39,7 @@ Route::middleware('auth')->group( function () {
 
 
 
-Route::get('/info', function(){
+Route::get('/', function(){
     return view('infoProject');
 });
 Route::group(['prefix'=>'news', 'as'=>'news.'], static function():void {
@@ -61,3 +64,11 @@ Route::resource('/order', OrderController::class);
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::group(['middleware'=>'guest'], function (){
+    Route::get('/auth/redirect/{driver}', [SocialProvidersController::class, 'redirect'])
+        ->where('driver', '\w+')
+        ->name('social.auth.redirect');
+    Route::get('/auth/callback/{driver}', [SocialProvidersController::class, 'callback'])
+        ->where('driver', '\w+');
+});

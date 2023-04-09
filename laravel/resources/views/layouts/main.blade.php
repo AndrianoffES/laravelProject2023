@@ -7,6 +7,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.108.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Album example · Bootstrap v5.3</title>
 
 
@@ -78,6 +79,7 @@
             </a>
             <a href="{{route('home')}}" class="btn btn-sm btn-outline-secondary navbar-brand">HOME</a>
             <a href="{{route('admin.index')}}" class="btn btn-sm btn-outline-secondary navbar-brand">ADMIN</a>
+
         </div>
     </div>
 </header>
