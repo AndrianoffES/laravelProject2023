@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\News;
 use App\Services\Contracts\Parser;
+use Illuminate\Support\Facades\Storage;
 use Orchestra\Parser\Xml\Facade as XmlParser;
 
 class ParserService implements Parser
@@ -14,15 +16,31 @@ class ParserService implements Parser
         return $this;
     }
 
-    public function getParseData(): array
+    public function getParseData(): void
     {
+
         $xml = XmlParser::load($this->link);
-        return $xml->parse([
-            'news'=>[
-                'uses'=>'channel.item[title,author,link,description,pubDate,category,enclosure::url]'
+        $data = $xml->parse([
+            'news' => [
+                'uses' => 'channel.item[title,author,link,description,pubDate,category,enclosure::url]'
             ]
 
-           ]);
+        ]);
+        foreach ($data as $item) {
+            foreach ($item as $value) {
+                $news = new News();
+                $news->title = $value['title'];
+                $news->author = $value['author'];
+                $news->body = $value['description'];
+                $news->image = $value['enclosure::url'];
+                $news->save();
+            }
+        }
+        $arrName = explode('/', $this->link);
+        $fileName = end($arrName) . ".json";
+        $serialize = json_encode($data);
+        Storage::disk('local')->put('/parsing/' . $fileName, $serialize);
+
     }
 }
 

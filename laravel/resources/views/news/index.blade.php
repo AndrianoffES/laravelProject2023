@@ -13,7 +13,7 @@
                 @php // dd($newsList) @endphp
             <div class="col">
                 <div class="card shadow-sm">
-                    <img src="{{$item->image}}" class="card-img-top" alt="...">  {{$item->title}}
+                    <img src="{{asset($item->image)}}" class="card-img-top" alt="...">  {{$item->title}}
                     <div class="card-body">
                         <p class="card-text">{{$item->body}}</p>
                         <div class="d-flex justify-content-between align-items-center">

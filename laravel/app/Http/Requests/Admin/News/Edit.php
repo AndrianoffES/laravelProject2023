@@ -31,7 +31,7 @@ class Edit extends FormRequest
             'title'=>['required', 'string', 'min:3', 'max:100'],
             'author' => ['nullable', 'string', 'min:2', 'max:100'],
             'status' => ['required', new Enum(StatusEnum::class)],
-            'image' => ['nullable', 'image', 'mimes:jpg, bmp, png'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp'],
             'body' => ['nullable', 'string'],
             'category'=>['required', 'array'],
             'category.*' => ['integer', 'exists:categories,id']

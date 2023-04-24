@@ -8,7 +8,9 @@ use App\Http\Requests\Admin\News\Create;
 use App\Http\Requests\Admin\News\Edit;
 use App\Models\Category;
 use App\Models\News;
+use App\Services\Contracts\Upload;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -76,10 +78,14 @@ class NewsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Edit $request, News $news)
+    public function update(Edit $request, News $news, Upload $upload)
     {
+        $validated = $request->validated();
+        if($request->hasFile('image')){
+            $validated['image'] = $upload->save($request->file('image'));
 
-        $news = $news->fill($request->validated());
+        }
+        $news = $news->fill($validated);
 
         if ($news->save()){
             $news->category()->sync($request->getCategoryIds());

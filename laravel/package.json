@@ -1,8 +1,9 @@
 {
     "private": true,
     "scripts": {
-        "dev": "vite",
+        "dev": "vite --host=localhost --port=8080",
         "build": "vite build"
+
     },
     "devDependencies": {
         "@popperjs/core": "^2.11.6",

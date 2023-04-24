@@ -26,6 +26,12 @@
                     Users
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link @if(request()->routeIs('admin.resources.*')) active @endif" href="{{route('admin.resources.index')}}">
+                    <span data-feather="resources" class="align-text-bottom"></span>
+                    Resources
+                </a>
+            </li>
 
         </ul>
 

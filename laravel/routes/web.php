@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use App\Http\Controllers\Admin\IndexController;
 use App\Http\Controllers\Admin\ParserController;
+use App\Http\Controllers\Admin\ResourceController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\NewsController;
@@ -33,6 +34,7 @@ Route::middleware('auth')->group( function () {
         Route::resource('/categories', AdminCategoryController::class);
         Route::resource('/news', AdminNewsController::class);
         Route::resource('/users', UserController::class);
+        Route::resource('/resources', ResourceController::class);
 
     });
 });
@@ -71,4 +73,8 @@ Route::group(['middleware'=>'guest'], function (){
         ->name('social.auth.redirect');
     Route::get('/auth/callback/{driver}', [SocialProvidersController::class, 'callback'])
         ->where('driver', '\w+');
+});
+
+Route::group(['prefix'=>'laravel-filemanager', 'middleware'=>['web', 'auth', 'is_admin']], function (){
+   UniSharp\LaravelFilemanager\Lfm::routes();
 });

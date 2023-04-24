@@ -11,7 +11,7 @@
         </div>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             @forelse( $news as $item)
-                @php// dump($item) @endphp
+
                 <div class="col">
                     <div class="card shadow-sm">
                         <img src="{{$item->image}}" class="card-img-top" alt="...">{{$category->title}}: {{$item->title}}

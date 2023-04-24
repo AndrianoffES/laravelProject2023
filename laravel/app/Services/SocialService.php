@@ -20,7 +20,7 @@ class SocialService implements Social
         $user = User::query()->where('email', '=', $socialUser->getEmail())->first();
         if ($user === null){
 
-            return route('auth.register');
+            return route('register');
         }
         $user->name = $socialUser->getName();
         $user->avatar = $socialUser->getAvatar();
